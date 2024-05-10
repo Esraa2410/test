@@ -1,0 +1,122 @@
+<section>
+    
+    <div class="page-title p-1">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="ms-3">
+                <h1>Users <span>item</span></h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, ipsam!</p>
+            </div>
+            <div class="me-3">
+                <img class="w-100" src="../../../assets/images/Group 48102127.svg" alt="">
+            </div>
+        </div>
+    </div>
+    <div>
+          <!-- tostar -->
+          <div class="w-25 alert-container" >
+            <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto mt-4">
+                <i class="fa-solid fa-circle-check mx-2 "></i>
+              <p class="p-0 m-0">{{apiSuccess}}</p>  
+            </div>
+            <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto mt-4">
+                <i class="fa-solid fa-circle-xmark mx-2"></i>
+                 <p class="m-0 p-0"> {{apiError}}  </p>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h2 class="h4">Users Table Detalies</h2>
+            
+            <!-- <button class=" primary" (click)="openDialog()">Add User</button> -->
+        </div>
+        <p>you can check all details</p>
+        <div class="container">
+            <div class="row">
+                    <!-- Category dropdown -->
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Search By</mat-label>
+                            <mat-select [(ngModel)]="parameyarKey" (selectionChange)="getUsersDate()">
+                                <mat-option value="userName">Name</mat-option>
+                                <mat-option value="email">Email</mat-option>
+                                <mat-option value="country">Country</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                <!-- search input -->
+                <div class="col-md-6">
+                    <mat-form-field class="example-form-field w-100" appearance="outline">
+                        <mat-label>Search Name</mat-label>
+                        <input matInput type="text" [(ngModel)]="searchValue" (keyup.enter)="getUsersDate()">
+                        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="searchValue='';getUsersDate()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+            
+                <!-- Role dropdown -->
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Role</mat-label>
+                        <mat-select multiple="" [(ngModel)]="roleIds" (selectionChange)="getUsersDate()">
+                            <mat-option value="1">Admin</mat-option>
+                            <mat-option value="2">User</mat-option>
+                            <mat-option *ngFor="let tag of listTags" [value]="tag.id">{{tag.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped text-center" style="vertical-align: middle;">
+            <thead class="">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Country</th>
+                <th>Role</th>
+                <th>Image</th>
+                <!-- <th>Creation Date</th>
+                <th>Modification Date</th> -->
+            </thead>
+            <tbody *ngIf="listData?.data.length>0" class="">
+                <tr class=" " *ngFor="let item of listData.data">
+                    <td>{{item.userName}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phoneNumber}}</td>
+                    <td>{{item.country}}</td>
+                    <td>{{item.group.name}}</td>
+                    <td class="w-25">
+                        <img [src]="item.imagePath?imgUrl+item.imagePath:emptyImg" class="w-25" alt="">
+                    </td>
+                    <td>
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <!-- <button (click)="openVeiwUserDialog(item)" mat-menu-item>
+                                <mat-icon>visibility</mat-icon>
+                                <span>View</span>
+                            </button> -->
+                            <button (click)="openDialogDelete(item.id)" mat-menu-item>
+                                <mat-icon>delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <mat-paginator #paginator class="demo-paginator" (page)="handlePageEvent($event)"
+            [length]="listData?.totalNumberOfRecords" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25 ,100]"
+            [pageIndex]="pageNumber" aria-label="Select page">
+        </mat-paginator>
+
+    </div>
+
+</section>

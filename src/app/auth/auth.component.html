@@ -1,0 +1,77 @@
+<section class="auth">
+    <div class="container">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-8 p-5">
+                <div class="auth-card p-5">
+                    <div class="w-50 text-center  mx-auto">
+                        <img src="../../assets/images/4 4.svg" class="w-100" alt="">
+                    </div>
+                    <h1 class="mb-0 pb-0">Log In</h1>
+                    <p class="mt-1 pt-0">Welcome Back! Please enter your details</p>
+                    <!-- tostar -->
+                    <div class="w-25 alert-container">
+                        <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
+                            <i class="fa-solid fa-circle-check mx-2 text-light"></i>
+                            <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
+                        </div>
+                        <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
+                            <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
+                            <p class="m-0 p-0 text-light"> {{apiError}} </p>
+                        </div>
+                    </div>
+                    <!-- login form -->
+                    <form (ngSubmit)="onLogin(loginForm)" [formGroup]="loginForm">
+                        <!-- email input -->
+                        <div class="input-group  mb-2 mt-4">
+                            <span class="input-group-text  " id="basic-addon1">
+                                <i class="fa-regular fa-envelope"></i>
+                            </span>
+                            <span class="input-line"></span>
+                            <input formControlName="email" type="email" class="form-control"
+                                placeholder="Enter your E-mail" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <!-- email validation -->
+                        <div *ngIf="loginForm.get('email')?.errors && loginForm.get('email')?.touched"
+                            class="alert alert-danger p-2 mt-0 ">
+                            <p *ngIf="loginForm.get('email')?.getError('required')|json" class="mb-0">Email is Required
+                            </p>
+                            <p *ngIf="loginForm.get('email')?.getError('email')|json" class="mb-0">Email inavaliable
+                            </p>
+                        </div>
+                        <!-- password input -->
+                        <div class="input-group mb-1">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+
+                            <input formControlName="password" class="form-control" [type]="hide? 'password':'text'"
+                                placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                            <span (click)="hide=!hide" class="input-group-text " id="basic-addon1">
+                                <i class="fa-solid" [class]="hide? 'fa-eye-slash' :'fa-eye'"></i>
+                            </span>
+                        </div>
+                        <!-- password validation -->
+                        <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched"
+                            class="alert alert-danger p-2">
+                            <p *ngIf="loginForm.get('password')?.getError('required')|json" class="mb-0">password is
+                                Required </p>
+                            <p *ngIf="loginForm.get('password')?.getError('pattern')" class="m-0"> Password must
+                                Start with UpperCase
+                                then From 3 to 10 </p>
+                        </div>
+
+                        <div class="links mt-0 pt-0">
+                            <a (click)="redirectToRegister()" class="text-dark-gray">Register Now?</a>
+                            <a (click)="redirectToForgetPass() " class="text-main">Forgot Password?</a>
+                        </div>
+                        <button type="submit" [disabled]="loginForm.invalid" class="primary w-100 mt-4">
+                            <i *ngIf="isLoading" class="fas fa-spinner fa-spin " style="color: white;"></i>
+                            <span *ngIf="!isLoading">Login</span>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

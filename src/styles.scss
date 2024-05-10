@@ -1,0 +1,184 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$foodApp-primary: mat.define-palette(mat.$indigo-palette);
+$foodApp-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$foodApp-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$foodApp-theme: mat.define-light-theme((color: (primary: $foodApp-primary,
+                accent: $foodApp-accent,
+                warn: $foodApp-warn,
+            )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($foodApp-theme);
+
+/* You can add global styles to this file, and also import other style files */
+.text-main {
+    color: #4AA35A;
+}
+
+.bg-dark-main {
+    background-color: #1F263E !important;
+}
+
+.mat-icon-style {
+    color: rgb(168, 20, 20);
+    cursor: pointer;
+    font-size: 1.8rem !important;
+}
+
+i,
+a {
+    cursor: pointer;
+}
+
+.auth-card {
+    $text-main: #4AA35A;
+    $text-dark-gray: #3A3A3D;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 1rem;
+
+    h1 {
+        color: #494949;
+        font-size: 25px;
+    }
+
+    p {
+        color: rgba(73, 73, 73, 0.6);
+    }
+
+    i {
+        color: #8391A1;
+    }
+
+    .links {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0px;
+
+        .text-dark-gray {
+            color: $text-dark-gray;
+        }
+
+        .text-main {
+            color: $text-main;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+    }
+
+    input,
+    .input-group-text {
+        border: none;
+        background-color: rgba(247, 247, 247, 1);
+
+    }
+
+    .input-line {
+        width: 3px;
+        background-color: rgba(131, 145, 161, 0.2);
+    }
+
+    input::placeholder {
+        color: rgba(131, 145, 161, 1);
+    }
+
+
+}
+
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 0.5rem;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+
+    &.primary {
+        background-color: #4AA35A;
+        color: #ffff;
+
+        &:hover {
+            opacity: 0.7;
+
+        }
+    }
+
+    &.dark {
+        background-color: #3a3a3d;
+        color: #ffff;
+
+        &:hover {
+            opacity: 0.7;
+
+        }
+    }
+
+    &.dark-outline {
+        border: 1px solid #3a3a3d;
+        color: #3a3a3d;
+
+        &:hover {
+            opacity: 0.7;
+            background-color: #3A3A3D;
+            color: #fff;
+        }
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.alert-container {
+    position: fixed;
+    top: 4%;
+    right: 2%;
+}
+
+.alert-design {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: white !important;
+}
+
+.alert-success {
+    background-color: yellowgreen !important;
+
+}
+
+.alert-error {
+    background-color: rgb(168, 20, 20) !important;
+}
+

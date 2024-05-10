@@ -1,0 +1,66 @@
+<div class="auth-card m-3">
+    <div class="text-end mt-2  ">
+        <i style="font-size: 20px;color: rgb(170, 11, 11);" class="fa-solid  fa-circle-xmark " (click)="onNoClick()"></i>
+    </div>
+    <div class="w-50 text-center  mx-auto mb-2">
+        <img src="../../assets/images/4 4.svg" class="w-100" alt="">
+    </div>
+    <h1 style="font-size: 20px;" class="mb-0 pb-0 h6">Verfiying Your Account</h1>
+    <p class="mt-1 pt-0">Please Enter Your Otp or Check Your Inbox</p>
+      <!-- tostar -->
+      <div class="w-25 alert-container">
+        <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
+            <i class="fa-solid fa-circle-check mx-2 text-light"></i>
+            <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
+        </div>
+        <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
+            <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
+            <p class="m-0 p-0 text-light"> {{apiError}} </p>
+        </div>
+    </div>
+    <form class="w-100" (ngSubmit)="onVerfiy(verfiyForm)" [formGroup]="verfiyForm">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="input-group  my-2">
+                    <span class="input-group-text  " id="basic-addon1">
+                        <i class="fa-regular fa-envelope"></i>
+                    </span>
+                    <span class="input-line"></span>
+                    <input type="email" class="form-control" formControlName="email"
+                        placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div *ngIf="verfiyForm.get('email')?.errors && verfiyForm.get('email')?.touched"
+                    class="alert alert-danger p-2 mt-0 ">
+                    <p *ngIf="verfiyForm.get('email')?.getError('required')|json" class="mb-0">Email
+                        is Required </p>
+                    <p *ngIf="verfiyForm.get('email')?.getError('email')|json" class="mb-0">Email
+                        inavaliabl </p>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="input-group  my-2">
+                    <span class="input-group-text  " id="basic-addon1">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </span>
+                    <span class="input-line"></span>
+                    <input formControlName="code" type="text" class="form-control" placeholder="Enter code"
+                        aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div *ngIf="verfiyForm.get('code')?.errors && verfiyForm.get('code')?.touched"
+                    class="alert alert-danger">
+                    <p *ngIf="verfiyForm.get('code')?.getError('required')|json" class="mb-0">
+                        seed is Required </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-end p-3">
+             <button type="submit" class="primary w-25 ">
+            <i *ngIf="isLoading" class="fas fa-spinner fa-spin " style="color: white;"></i>
+            <span *ngIf="!isLoading">Verfiy</span>
+        </button>
+        </div>
+       
+    </form>
+
+</div>

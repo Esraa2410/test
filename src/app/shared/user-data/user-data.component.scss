@@ -1,0 +1,49 @@
+.auth {
+    background-color: rgb(0, 146, 71) !important;
+}
+
+.icon-style {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    border: 1px solid rgb(0, 146, 71);
+    color: rgb(0, 146, 71);
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+.img-container{
+    position: absolute;
+    top: 27%;
+    left: 41%;
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+    background-color: yellowgreen;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+
+    ngx-dropzone {
+        width: 100px !important;
+        height: 100px !important;
+        border-radius: 50% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    ngx-dropzone-image-preview{
+        width: 100px!important;
+        height: 100px!important;
+       // border-radius: 50% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: red!important;
+    }
+}
+
+.img-style {
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+}

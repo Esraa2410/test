@@ -1,0 +1,156 @@
+<!-- <div class="container px-4 py-3">
+    <div class="row">
+        <div class="ms-auto text-end  w-25  " >
+            <i style="font-size: 20px;color: rgb(170, 11, 11);" class="fa-solid  fa-circle-xmark "
+                (click)="onNoClick()"></i>
+        </div>
+       
+        <div class="text-center mx-auto  w-100">
+            <h4 class="text-start">User Name : {{userData.userName}}</h4>
+            <h4 class="text-start">Email : {{userData.email}}</h4>
+            <h4 class="text-start">Country : {{userData.country}}</h4>
+            <h4 class="text-start">Phone Number : {{userData.phoneNumber}}</h4>
+            <h4 class="text-start">Image Profile : {{userData.imagePath}}</h4>
+            <h4 class="text-start">Role : {{userData.group.name}}</h4>
+            <img [src]="userData.imagePath?imgUrl+userData.imagePath:emptyImg" class="w-25" alt="">
+            <hr class="m-0 p-0">
+            <div class="text-end">
+                 <button (click)="onNoClick()" type="submit" class="btn btn-outline-danger w-25">Cancle</button>
+            </div>
+           
+          </div>
+       
+
+    </div>
+</div> -->
+
+
+<div class="container-fluid p-0 mb-0 ">
+    <div class="w-25" style="position:fixed ;top: 10px;right: 20px;">
+        <div *ngIf="apiSuccess" class="alert alert-primary w-100 ms-auto mt-4">
+            {{apiSuccess}}
+        </div>
+        <div *ngIf="apiError" class="alert alert-danger w-100 ms-auto mt-4">
+            {{apiError}}
+        </div>
+    </div>
+
+    <form (ngSubmit)="onUpdate(updateForm)" [formGroup]="updateForm">
+        <div class="row  p-0 m-0  position-relative mb-0">
+            <!-- image input -->
+            <div class="col-md-12 auth p-2  ">
+                <img src="../../../assets/images/header-bg-svg.svg" class="w-100 " alt="">
+                <div class="img-container ">
+                    <!-- <img class="w-100 h-100 img-style" [src]="userData.imagePath?imgUrl+userData.imagePath:emptyImg"
+                        alt=""> -->
+                    <ngx-dropzone (change)="onSelect($event) " [multiple]="false">
+                        <ngx-dropzone-label>
+                            <i class="fa-solid fa-upload"></i>
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                            [file]="f">
+                        </ngx-dropzone-image-preview>
+                    </ngx-dropzone>
+
+                </div>
+            </div>
+            <div class="col-md-12 text-center mt-5  ">
+                <div class="row ms-4 ">
+                    <!-- username input -->
+                    <div class="col-md-6  my-2 ">
+                        <div class="row  p-0">
+                            <div class="col-md-3 icon  d-flex justify-content-center align-items-center icon-style">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="col-md-9  d-flex justify-content-start align-items-center">
+                                <input formControlName="userName" type="text" [value]="userData.userName" name="" id=""
+                                    class="form-control w-100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- phoneNumber -->
+                    <div class="col-md-6  my-2">
+                        <div class="row p-0">
+                            <div class="col-md-3 icon  d-flex justify-content-center align-items-center icon-style">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div class="col-md-9  d-flex justify-content-start align-items-center">
+                                <input formControlName="phoneNumber" type="text" [value]="userData.phoneNumber" name=""
+                                    id="phoneNumber" class="form-control w-100">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- country -->
+                    <div class="col-md-6  my-2">
+                        <div class="row p-0">
+                            <div class="col-md-3 icon  d-flex justify-content-center align-items-center icon-style">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </div>
+                            <div class="col-md-9  d-flex justify-content-start align-items-center">
+                                <input formControlName="country" type="text" [value]="userData.country" id="country"
+                                    class="form-control w-100">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- group.name -->
+                    <div class="col-md-6  my-2">
+                        <div class="row p-0">
+                            <div class="col-md-3 icon  d-flex justify-content-center align-items-center icon-style">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="col-md-9  d-flex justify-content-start align-items-center">
+                                <input readonly type="text" [value]="userData.group.name" id="groupName"
+                                    class="form-control w-100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- email -->
+                    <div class="col-md-6  my-2">
+                        <div class="row p-0">
+                            <div class="col-md-3 icon  d-flex justify-content-center align-items-center icon-style">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="col-md-9  d-flex justify-content-start align-items-center">
+                                <input formControlName="email" type="email" [value]="userData.email" id="email"
+                                    class="form-control w-100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- confirmPassword -->
+                    <div class="col-md-6  my-2">
+                        <div class="row p-0">
+                            <div class="col-md-3 icon  d-flex justify-content-center align-items-center icon-style">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <div class="col-md-9  d-flex justify-content-start align-items-center">
+                                <input formControlName="confirmPassword" type="password" id="confirmPassword"
+                                    class="form-control w-100" [type]="hide? 'password':'text'" placeholder="Enter Password">
+                                <span (click)="hide=!hide" class="input-group-text h-100  " id="basic-addon1">
+                                    <i class="fa-solid" [class]="hide? 'fa-eye-slash' :'fa-eye'"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="text-end mt-4 mb-1">
+                <button (click)="onNoClick()" type="button" class="btn btn-outline-danger w-25 mx-1">Close</button>
+                <button type="submit" class="primary w-25 mt-4 mx-1">
+                    <i *ngIf="isLoading" class="fas fa-spinner fa-spin " style="color: white;"></i>
+                    <span *ngIf="!isLoading">Update</span>
+                </button>
+
+            </div>
+        </div>
+    </form>
+</div>

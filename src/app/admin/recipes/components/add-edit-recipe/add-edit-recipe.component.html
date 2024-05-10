@@ -1,0 +1,111 @@
+<div class="container  px-5 pt-0 ">
+    <div class="row">
+        <div class="w-50 text-center  mx-auto mt-0">
+            <img src="../../assets/images/4 4.svg" class="w-100" alt="">
+        </div>
+        <h1 class="mb-0 pb-0 h4">
+            <span *ngIf="activateId">Update</span>
+            <span *ngIf="!activateId">Add New</span>
+            Recipe
+        </h1>
+        <div class="w-25 alert-container">
+            <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
+                <i class="fa-solid fa-circle-check mx-2 text-light"></i>
+                <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
+            </div>
+            <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
+                <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
+                <p class="m-0 p-0 text-light"> {{apiError}} </p>
+            </div>
+        </div>
+        <form (ngSubmit)="onAddEditRecipe(addRecipeForm)" [formGroup]="addRecipeForm " class="">
+            <div class="row">
+                <!-- name input -->
+                <div class="col-md-12 ">
+                    <div class="input-group  my-2 ">
+                        <input formControlName="name" type="text" class="form-control p-2" placeholder="Recipe Name"
+                            aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div *ngIf="addRecipeForm.get('name')?.errors && addRecipeForm.get('name')?.touched"
+                        class="alert alert-danger">
+                        <p *ngIf="addRecipeForm.get('name')?.getError('required')|json" class="mb-0">
+                            Recipe Name is Required </p>
+                    </div>
+                </div>
+                <!-- tagId input -->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class=" w-100 ">
+                        <mat-label style="border: none!important;">Tag</mat-label>
+                        <mat-select formControlName="tagId" class="">
+                            <mat-option *ngFor="let tag of listTags" [value]="tag.id">{{tag.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- category input -->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="categoriesIds" multiple>
+                            <mat-option *ngFor="let item of listCategories" [value]="item.id">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- price input -->
+                <div class="col-md-12">
+                    <div class="input-group  my-2">
+                        <input formControlName="price" type="number" class="form-control p-2" placeholder="Price"
+                            aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div *ngIf="addRecipeForm.get('price')?.errors && addRecipeForm.get('price')?.touched"
+                        class="alert alert-danger">
+                        <p *ngIf="addRecipeForm.get('price')?.getError('required')|json" class="mb-0">
+                            Price is Required </p>
+                    </div>
+                </div>
+                <!-- description input -->
+                <div class="col-md-12">
+                    <div class="input-group  my-2">
+                        <textarea formControlName="description" type="text" class="form-control p-2" cols="10" rows="2"
+                            placeholder="*description" aria-label="Username" aria-describedby="basic-addon1"></textarea>
+                    </div>
+                    <div *ngIf="addRecipeForm.get('description')?.errors && addRecipeForm.get('description')?.touched"
+                        class="alert alert-danger">
+                        <p *ngIf="addRecipeForm.get('description')?.getError('required')|json" class="mb-0">description
+                            is Required </p>
+                    </div>
+                </div>
+                <!-- image input -->
+                <div class="col-md-12" style="height:20%!important">
+                    <ngx-dropzone (change)="onSelect($event) " class="h-50">
+                        <ngx-dropzone-label>
+                            <i class="fa-solid fa-upload"></i>
+                            <p class="fw-bolder text-dark">Drag & Drop or
+                                <span style="color:  #4AA35A;">Choose a Item Image</span> to Upload
+                            </p>
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                            [file]="f">
+                        </ngx-dropzone-image-preview>
+                    </ngx-dropzone>
+                </div>
+                <div class="text-end mt-3">
+                    <button *ngIf="!activateId" routerLink="../" type="button" class=" btn btn-outline-danger mx-2 w-25">
+                        Cancle
+                    </button>
+                    <button *ngIf="activateId" routerLink="../../" type="button" class=" btn btn-outline-danger mx-2 w-25">
+                        Cancle
+                    </button>
+                    <button type="submit" class="primary mx-2 w-25">
+                        <i *ngIf="isLoading" class="fas fa-spinner fa-spin " style="color: white;"></i>
+                        <span *ngIf="!isLoading">
+                            <span *ngIf="activateId">Update</span>
+                            <span *ngIf="!activateId">Add</span>
+                            
+                        </span>
+                    </button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

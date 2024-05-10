@@ -1,0 +1,21 @@
+nav{
+    border-radius: 16px!important;
+    background-color: rgb(243, 245, 248);
+}
+
+.search-icon{
+    position: absolute;
+    left: 5%;
+    top: 32%;
+    color: rgb(107, 113, 134)!important;
+    font-size: 14px;
+}
+
+input{
+    border-radius: 18px!important;
+    
+}
+
+input::placeholder{
+    color: rgb(107, 113, 134)!important;
+}

@@ -1,0 +1,196 @@
+<section class="auth">
+    <div class="container">
+        <div *ngIf="!isVerfiy" class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-10 p-5">
+                <div class="auth-card ">
+                    <div class="w-50 text-center  mx-auto">
+                        <img src="../../assets/images/4 4.svg" class="w-100" alt="">
+
+                    </div>
+                    <h1 class="mb-0 pb-0">Register</h1>
+                    <p class="mt-1 pt-0">Welcome Back! Please enter your details</p>
+                         <!-- tostar -->
+                         <div class="w-25 alert-container">
+                            <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
+                                <i class="fa-solid fa-circle-check mx-2 text-light"></i>
+                                <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
+                            </div>
+                            <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
+                                <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
+                                <p class="m-0 p-0 text-light"> {{apiError}} </p>
+                            </div>
+                        </div>
+                    <form (ngSubmit)="onRegister(registerForm)" [formGroup]="registerForm">
+                        <div class="row ">
+                            <!-- userName input-->
+                            <div class="col-md-6">
+                                <div class="input-group  my-2">
+                                    <span class="input-group-text  " id="basic-addon1">
+                                        <i class="fa-regular fa-user"></i>
+                                    </span>
+                                    <span class="input-line"></span>
+                                    <input formControlName="userName" type="text" class="form-control"
+                                        placeholder="userName" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                                <div *ngIf="registerForm.get('userName')?.errors && registerForm.get('userName')?.touched"
+                                    class="alert alert-danger">
+                                    <p *ngIf="registerForm.get('userName')?.getError('required')|json" class="mb-0">
+                                        userName is Required </p>
+                                    <p *ngIf="registerForm.get('userName')?.getError('minlength')|json" class="mb-0">
+                                        userName minLength is 3 </p>
+                                    <p *ngIf="registerForm.get('userName')?.getError('maxlength')|json" class="mb-0">
+                                        userName maxLength is 10 </p>
+                                </div>
+                            </div>
+                            <!-- email input-->
+                            <div class="col-md-6">
+                                <div class="input-group  my-2">
+                                    <span class="input-group-text  " id="basic-addon1">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </span>
+                                    <span class="input-line"></span>
+                                    <input formControlName="email" type="email" class="form-control"
+                                        placeholder="Enter your E-mail" aria-label="Username"
+                                        aria-describedby="basic-addon1">
+                                </div>
+                                <div *ngIf="registerForm.get('email')?.errors && registerForm.get('email')?.touched"
+                                    class="alert alert-danger p-2 mt-0 ">
+                                    <p *ngIf="registerForm.get('email')?.getError('required')|json" class="mb-0">Email
+                                        is Required </p>
+                                    <p *ngIf="registerForm.get('email')?.getError('email')|json" class="mb-0">Email
+                                        inavaliabl </p>
+                                </div>
+                            </div>
+                            <!-- country input-->
+                            <div class="col-md-6">
+                                <div class="input-group  my-2 ">
+                                    <span class="input-group-text  " id="basic-addon1">
+                                        <i class="fa-solid fa-earth-americas"></i>
+                                    </span>
+                                    <span class="input-line"></span>
+                                    <input formControlName="country" type="text" class="form-control"
+                                        placeholder="country" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                                <div *ngIf="registerForm.get('country')?.errors && registerForm.get('country')?.touched"
+                                    class="alert alert-danger p-2 mt-0 ">
+                                    <p *ngIf="registerForm.get('country')?.getError('required')|json" class="mb-0">Email
+                                        is
+                                        Required
+                                    </p>
+
+                                </div>
+                            </div>
+                            <!-- phoneNumber input -->
+                            <div class="col-md-6">
+                                <div class="input-group  my-2 ">
+                                    <span class="input-group-text  " id="basic-addon1">
+                                        <i class="fa-solid fa-mobile-screen"></i>
+                                    </span>
+                                    <span class="input-line"></span>
+                                    <input formControlName="phoneNumber" type="text" class="form-control"
+                                        placeholder="phoneNumber" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                                <div *ngIf="registerForm.get('phoneNumber')?.errors && registerForm.get('phoneNumber')?.touched"
+                                    class="alert alert-danger">
+                                    <p *ngIf="registerForm.get('phoneNumber')?.getError('required')|json" class="mb-0">
+                                        phoneNumber is Required </p>
+                                </div>
+                            </div>
+                            <!-- password input -->
+                            <div class="col-md-6">
+                                <div class="input-group my-2">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                    <span class="input-line"></span>
+                                    <input formControlName="password" [type]="hide? 'password':'text'"
+                                        class="form-control" placeholder="password" aria-label="Username"
+                                        aria-describedby="basic-addon1">
+                                    <span (click)="hide=!hide" class="input-group-text" id="basic-addon1">
+                                        <i class="fa-regular " [class]="hide? 'fa-eye-slash' :'fa-eye'"></i>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <!-- confirmPassword input -->
+                            <div class="col-md-6">
+                                <div class="input-group my-2">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                    <span class="input-line"></span>
+
+                                    <input formControlName="confirmPassword" [type]="hide? 'password':'text'"
+                                        class="form-control" placeholder="confirmPassword" aria-label="Username"
+                                        aria-describedby="basic-addon1">
+                                    <span (click)="hide=!hide" class="input-group-text" id="basic-addon1">
+                                        <i class="fa-regular " [class]="hide? 'fa-eye-slash' :'fa-eye'"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- input image -->
+                        <div class="col-md-12 ">
+                            <ngx-dropzone (change)="onSelect($event) ">
+                                <ngx-dropzone-label>
+                                    <i class="fa-solid fa-upload"></i> Upload your image here
+                                </ngx-dropzone-label>
+                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                                    [file]="f">
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                        </div>
+
+                        <div class="links mt-0 pt-0">
+                            <a (click)="redirectToLogin()" class="text-dark-gray">Login Now?</a>
+                            <a (click)="openHaveCodeDialog()" class="text-main">Have Code?</a>
+                        </div>
+                        <button type="submit" class="primary w-100 mt-4">
+                            <i *ngIf="isLoading" class="fas fa-spinner fa-spin " style="color: white;"></i>
+                            <span *ngIf="!isLoading">Login</span>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- verfify popup -->
+        <!-- <div *ngIf="isVerfiy" class="row justify-content-center align-items-center vh-100">
+          <div class="col-md-8 p-5">
+              <div class="auth-card p-5">
+                  <form (ngSubmit)="onVerfiy(verfiyForm)" [formGroup]="verfiyForm">
+                  <div class="col-md-12">
+                      <div class="input-group  my-4">
+                          <span class="input-group-text  " id="basic-addon1">
+                              <i class="fa-solid fa-mobile-screen"></i>
+                          </span>
+                          <span class="input-line"></span>
+                          <input formControlName="email" type="email" readonly class="form-control"
+                              [value]="currentEmail" [placeholder]="currentEmail" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                  </div>
+
+                  <div class="col-md-12">
+                      <div class="input-group  my-4">
+                          <span class="input-group-text  " id="basic-addon1">
+                              <i class="fa-solid fa-mobile-screen"></i>
+                          </span>
+                          <input formControlName="code" type="text" class="form-control"
+                              placeholder="Enter code" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                  </div>
+                  <button type="submit" class="primary w-100 mt-4">
+                      <i *ngIf="isLoading" class="fas fa-spinner fa-spin " style="color: white;"></i>
+                      <span *ngIf="!isLoading">Ok</span>
+                  </button>
+              </form>
+              </div>
+          </div>
+      </div> -->
+    </div>
+
+</section>

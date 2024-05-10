@@ -1,0 +1,32 @@
+<div class="container px-4 py-3">
+       <!-- tostar -->
+       <div class="w-25 alert-container">
+        <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
+            <i class="fa-solid fa-circle-check mx-2 text-light"></i>
+            <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
+        </div>
+        <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
+            <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
+            <p class="m-0 p-0 text-light"> {{apiError}} </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="ms-auto text-end  w-25  " >
+            <i style="font-size: 20px;color: rgb(170, 11, 11);" class="fa-solid  fa-circle-xmark "
+                (click)="onNoClick()"></i>
+        </div>
+       
+        <div class="text-center mx-auto  w-100">
+            <h2 class="text-start">Logout</h2>
+            <img src="../../../assets/images/logout.png" alt="" class="w-50 m-0 p-0">
+            <hr class="m-0 p-0">
+            <p class="mt-0 pt-1 ">Are you sure you want to exit ? if you are sure just click on logout it?</p>
+            <div class="text-end">
+                 <button (click)="logOut()" type="submit" class="primary w-25">Logout</button>
+            </div>
+           
+          </div>
+       
+
+    </div>
+</div>
