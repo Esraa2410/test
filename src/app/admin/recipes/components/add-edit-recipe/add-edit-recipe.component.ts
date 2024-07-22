@@ -163,24 +163,16 @@ export class AddEditRecipeComponent implements OnInit {
         console.log(res)
         this.recipeDataId = res;
         setTimeout(() => {
-          if (this.apiSuccess) {
-            this.apiSuccess = ''
-          }
-        }, 1000);
+          if (this.apiSuccess) { this.apiSuccess = ''}}, 1000);
       },
       error: (err) => {
         console.log(err);
         this.apiError = err.error.message;
         setTimeout(() => {
-          if (this.apiError) {
-            this.apiError = ''
-          }
-        }, 2000);
+          if (this.apiError) {this.apiError = '' }}, 2000);
       }, complete: () => {
         for (let i = 0; i < this.recipeDataId.category.length; i++) {
-          this.selectedCateIds.push(this.recipeDataId.category[i].id)
-        }
-
+          this.selectedCateIds.push(this.recipeDataId.category[i].id)}
         this.addRecipeForm.patchValue({
           name: this.recipeDataId.name,
           description: this.recipeDataId.description,

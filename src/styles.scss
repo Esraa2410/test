@@ -164,21 +164,19 @@ body {
     position: fixed;
     top: 4%;
     right: 2%;
+
+    .alert-design {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        color: white !important;
+    }
+
+    &.alert-success {
+        background-color: yellowgreen !important;
+    }
+
+    .alert-error {
+        background-color: rgb(168, 20, 20) !important;
+    }
 }
-
-.alert-design {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    color: white !important;
-}
-
-.alert-success {
-    background-color: yellowgreen !important;
-
-}
-
-.alert-error {
-    background-color: rgb(168, 20, 20) !important;
-}
-
