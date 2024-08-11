@@ -5,6 +5,7 @@ import { DeleteComponent } from 'src/app/shared/delete/delete.component';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { CategoryService } from '../categories/services/category.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipes',
@@ -35,7 +36,7 @@ export class RecipesComponent {
   apiError: any;
 
 
-  constructor(private _Router: Router, private _CategoryService: CategoryService,
+  constructor(private _ToastrService: ToastrService, private _Router: Router, private _CategoryService: CategoryService,
     private _RecipeService: RecipeService, public dialog: MatDialog) {
     this.getRecipeDate();
     this.getTags();
@@ -60,7 +61,6 @@ export class RecipesComponent {
     }
     return this._RecipeService.getAllRecipes(paramData).subscribe({
       next: (res) => {
-        console.log(res);
         this.listData = res;
       }
     })
@@ -69,9 +69,7 @@ export class RecipesComponent {
   getTags() {
     return this._RecipeService.getAllTags().subscribe({
       next: (res) => {
-        console.log(res);
         this.listTags = res;
-
       }
     })
 
@@ -81,7 +79,6 @@ export class RecipesComponent {
   getAllCategory() {
     return this._CategoryService.getAllCategories(10000, 1).subscribe({
       next: (res) => {
-        console.log(res);
         this.listCategories = res.data;
       }
     })
@@ -90,14 +87,11 @@ export class RecipesComponent {
   //openDialogDelete
   openDialogDelete(id: number): void {
     const dialogRef = this.dialog.open(DeleteComponent, {
-      // width: '50%'
       data: {
         id: id
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //console.log(id);
       this.deleteRecipe(id);
       this.getRecipeDate();
     });
@@ -107,22 +101,10 @@ export class RecipesComponent {
   deleteRecipe(id: number) {
     this._RecipeService.onDeleteRecipe(id).subscribe({
       next: (res) => {
-        // console.log(res);
-        this.apiSuccess = 'Deleted Successfuly';
-        setTimeout(() => {
-          if (this.apiSuccess) {
-            this.apiSuccess = ''
-          }
-        }, 1000);
+        this._ToastrService.success('Deleted Successfuly');
       },
       error: (err) => {
-        // console.log(err)
-        this.apiError = 'Can`t Delete';
-        setTimeout(() => {
-          if (this.apiError) {
-            this.apiError = ''
-          }
-        }, 1000)
+        this._ToastrService.error('Can`t Delete');
       }, complete: () => {
         this.getRecipeDate();
       }

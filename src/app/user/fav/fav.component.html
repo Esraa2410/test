@@ -1,15 +1,4 @@
 <section>
-    <!-- tostar -->
-    <div class="w-25 alert-container">
-        <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto mt-4">
-            <i class="fa-solid fa-circle-check mx-2 "></i>
-            <p class="p-0 m-0">{{apiSuccess}}</p>
-        </div>
-        <div *ngIf="apiError" class="alert alert-danger w-100 ms-auto mt-4">
-            <i class="fa-solid fa-circle-xmark mx-2"></i>
-            <p class="m-0 p-0"> {{apiError}} </p>
-        </div>
-    </div>
     <div class="page-title p-1">
         <div class="d-flex justify-content-between align-items-center">
             <div class="ms-3">
@@ -21,21 +10,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="container">
-        <div class="row py-5">
-            <div class="col-md-4" *ngFor="let item of listFav.data">
-                <div class="position-relative card">
-                    <img [src]="item.imagePath?imgUrl+item.imagePath:emptyImg"
-                        class="w-100 rounded-top-2 rounded-bottom-5" alt="">
-                    <div class="p-2">
-                        <h3>{{item.recipe.name}}</h3>
-                        <span
-                            class="position-absolute top-0 end-0 badge text-bg-light shadow-sm m-2">{{item.recipe.price|currency}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="mt-4">
         <h5 class="my-3">Favorite Recipes Table Details</h5>
         <table class="table table-striped ">

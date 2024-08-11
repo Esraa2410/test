@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HaveCodeComponent } from '../have-code/have-code.component';
 import { MatDialog} from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent  {
   isLoading: boolean = false;
   apiError: string = '';
   apiSuccess:string='';
@@ -20,10 +21,8 @@ export class RegisterComponent implements OnInit {
   isVerfiy: boolean = false;
   currentEmail: string = '';
 
-  constructor(private _AuthService: AuthService, private _Router: Router,public dialog: MatDialog) { }
-  ngOnInit(): void {
+  constructor(private toastr: ToastrService, private _AuthService: AuthService, private _Router: Router,public dialog: MatDialog) { }
 
-  }
 
   //registerForm
   registerForm: FormGroup = new FormGroup({
@@ -39,6 +38,7 @@ export class RegisterComponent implements OnInit {
   //registerForm function
   onRegister(registerForm: FormGroup) {
     let myData = new FormData();
+    this.currentEmail=registerForm.value.email;
     myData.append('userName', registerForm.value.userName);
     myData.append('email', registerForm.value.email);
     myData.append('country', registerForm.value.country);
@@ -49,43 +49,21 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
     this._AuthService.register(myData).subscribe({
       next: (response) => {
-        this.apiError = '';
-        this.apiSuccess=response.message;
-        console.log(response);
-        this.isLoading = false;     
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 2000);  
+        this.toastr.success(response.message)
+        this.isLoading = false;      
       },
-      error: (err) => {
+      error: (err:HttpErrorResponse) => {
         this.isLoading = false;
-        this.apiError = err.error.message;
-        this.apiError = err.error.message;
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 2000);
+       this.toastr.error(err.error.message)
       },complete:()=>{
-        setTimeout(() => {
-          this.openHaveCodeDialog();
-        }, 2000);
+        this. openHaveCodeDialog(); 
 
       }
-
     })
-
   }
 
   onSelect(event: any) {
-    console.log(event);
-    //spread operator
     this.files.push(...event.addedFiles);
-    console.log(this.files);
-
-    //console.log(this.files[0].name);
     this.imgSrc = this.files[0];
 
   }
@@ -106,9 +84,9 @@ export class RegisterComponent implements OnInit {
         data:{email:this.currentEmail}
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
+      // dialogRef.afterClosed().subscribe(result => {
+      //   console.log('The dialog was closed');
+      // });
     
   }
 

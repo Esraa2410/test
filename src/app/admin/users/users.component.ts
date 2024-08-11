@@ -1,12 +1,11 @@
-import { Component ,OnInit ,OnDestroy} from '@angular/core';
+import { Component } from '@angular/core';
 import { CategoryService } from '../categories/services/category.service';
 import { RecipeService } from '../recipes/services/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteComponent } from 'src/app/shared/delete/delete.component';
-
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
-
+import { PageEvent } from '@angular/material/paginator';
 import { UsersService } from './services/users.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -29,8 +28,6 @@ export class UsersComponent {
   imgUrl: string = 'https://upskilling-egypt.com:3006/';
   emptyImg: string = "../../../assets/images/Ellipse 234.svg";
   showAlert: boolean = false;
-  apiSuccess:any;
-  apiError:any;
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
@@ -40,7 +37,7 @@ export class UsersComponent {
   description: string = '';
   price: number = 0;
 
-  constructor(private _UsersService: UsersService, private _CategoryService: CategoryService, private _RecipeService: RecipeService, public dialog: MatDialog) {
+  constructor(private _ToastrService:ToastrService,  private _UsersService: UsersService, private _CategoryService: CategoryService, private _RecipeService: RecipeService, public dialog: MatDialog) {
     this.getUsersDate();
   
   }
@@ -61,7 +58,6 @@ export class UsersComponent {
     }
     return this._UsersService.getAllUsers(paramData).subscribe({
       next: (res) => {
-        console.log(res);
         this.listData = res;
       }
     })
@@ -75,12 +71,9 @@ export class UsersComponent {
       // width: '50%'
       data: {
         id: id
-
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //console.log(id);
       this.deleteUsers(id);
       this.getUsersDate();
     });
@@ -91,25 +84,10 @@ export class UsersComponent {
   deleteUsers(id: number) {
     this._UsersService.onDeleteUsers(id).subscribe({
       next: (res) => {
-        console.log(res);
-        this.apiSuccess = res.message;
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 3000);
-
+        this._ToastrService.success(res.message);
       },
       error: (err) => {
-        console.log(err);
-        this.apiError = err.error.message;
-       // console.log('apierr'+this.apiErro)
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 3000);
-
+        this._ToastrService.error(err.error.message);
       }
     })
   }

@@ -26,35 +26,20 @@ export class NavbarComponent implements OnInit {
 
   getUserName(){
     this.userName=this._AuthService.userName;
-    //console.log(localStorage.getItem('userName'));
   }
 
 
   openUserDataDailog(){
     const dialogRef = this.dialog.open(UserDataComponent, {
-      width:'45%',
-      height:'70%'
+      width:'65%',
+      height:'90%'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-      console.log(result);
-    });
-
   }
 
   openLogOutDailog(){
     const dialogRef = this.dialog.open(LogOutComponent, {
       width:'45%'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-      console.log(result);
-    });
-
   }
 
 
@@ -63,24 +48,13 @@ export class NavbarComponent implements OnInit {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
       width:'45%'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-      console.log(result);
-    });
-
   }
 
   currentUser(){
     this._UserDataService.getCurrentUser().subscribe({
       next:(res)=>{
-        console.log(res);
         this.userData=res;
-      },
-      error:(err)=>{
-        console.log(err);
-      },
+      }
     })
 
   }

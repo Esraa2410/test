@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-
+import { Component, Inject } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -9,13 +9,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './log-out.component.html',
   styleUrls: ['./log-out.component.scss']
 })
-export class LogOutComponent implements OnInit {
-  apiSuccess: any;
-  apiError: any;
-  constructor(private _Router: Router,
+export class LogOutComponent  {
+  
+  constructor(private toaster:ToastrService, private _Router: Router,
     public dialogRef: MatDialogRef<LogOutComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-  ngOnInit(): void { }
+
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -26,18 +25,10 @@ export class LogOutComponent implements OnInit {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userName');
     localStorage.removeItem('role');
-    this.apiSuccess="Logut Successfuly";
-    setTimeout(() => {
-      if (this.apiSuccess) {
-        this.apiSuccess = ''
-      }
-    }, 1000);
-    setTimeout(() => {
+    this.toaster.success("Logut Successfuly");
       this.onNoClick();
-    }, 2000);
-    setTimeout(() => {
       this._Router.navigate(['']);
-    }, 3000);
+  
 
 
   }

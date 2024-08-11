@@ -1,15 +1,10 @@
-import { AddEditRecipeComponent } from './../../admin/recipes/components/add-edit-recipe/add-edit-recipe.component';
 import { CategoryService } from './../../admin/categories/services/category.service';
 import { RecipeService } from './../../admin/recipes/services/recipe.service';
-
-
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteComponent } from 'src/app/shared/delete/delete.component';
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
-import { FavComponent } from '../fav/fav.component';
+import { PageEvent} from '@angular/material/paginator';
+import { ToastrService } from 'ngx-toastr';
 import { FavService } from '../fav/services/fav.service';
 import { AddFavComponent } from '../fav/components/add-fav/add-fav.component';
 
@@ -32,15 +27,13 @@ export class UserRecipeComponent {
   ifAdd: boolean = true;
   searchValue: string = '';
   imgSrc: any;
-  apiSuccess: any;
-  apiError: any;
   // imgUrl:string='files/users/images/852hq720.jpg';
   emptyImg: string = "../../../assets/images/Ellipse 234.svg";
   imgUrl: string = 'https://upskilling-egypt.com:3006/';
   apiFavSuccess: string = '';
   apiFavError: string = '';
 
-  constructor(private _FavService: FavService, private _CategoryService: CategoryService, private _RecipeService: RecipeService, public dialog: MatDialog) {
+  constructor(private _ToastrService: ToastrService, private _FavService: FavService, private _CategoryService: CategoryService, private _RecipeService: RecipeService, public dialog: MatDialog) {
     this.getRecipeDate();
     this.getTags();
     this.getAllCategory();
@@ -68,7 +61,6 @@ export class UserRecipeComponent {
     }
     return this._RecipeService.getAllRecipes(paramData).subscribe({
       next: (res) => {
-        console.log(res);
         this.listData = res;
       }
     })
@@ -77,7 +69,6 @@ export class UserRecipeComponent {
   getTags() {
     return this._RecipeService.getAllTags().subscribe({
       next: (res) => {
-        console.log(res);
         this.listTags = res;
 
       }
@@ -89,7 +80,6 @@ export class UserRecipeComponent {
   getAllCategory() {
     return this._CategoryService.getAllCategories(10000, 1).subscribe({
       next: (res) => {
-        console.log(res);
         this.listCategories = res.data;
 
       }
@@ -116,28 +106,11 @@ export class UserRecipeComponent {
   favRecipe(id: number) {
     this._FavService.onAddFavRecipes(id).subscribe({
       next: (res) => {
-        console.log(res);
-        //console.log(res.recipe.imagePath)
         this.addRecipeDetails = res;
-        console.log(this.addRecipeDetails)
-
-        this.apiSuccess = 'This Recipe Added to Fav Successfuly';
-        setTimeout(() => {
-          if (this.apiSuccess) {
-            this.apiSuccess = ''
-          }
-        }, 3000);
-
+        this._ToastrService.success('This Recipe Added to Fav Successfuly');
       },
       error: (err) => {
-        console.log(err)
-        this.apiError = 'This Recipe Can`t Added To Fav, Try Again';
-        setTimeout(() => {
-          if (this.apiError) {
-            this.apiError = ''
-          }
-        }, 3000);
-
+        this._ToastrService.error('This Recipe Can`t Added To Fav, Try Again');
       }
     })
   }
@@ -150,8 +123,6 @@ export class UserRecipeComponent {
       data: { id: id },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //console.log(id);
       if (result) {
         this.deleteRecipe(id);
         this.getRecipeDate();
@@ -162,28 +133,12 @@ export class UserRecipeComponent {
   deleteRecipe(id: number) {
     this._RecipeService.onDeleteRecipe(id).subscribe({
       next: (response) => {
-        console.log(response);
-        this.apiSuccess = 'This Recipe Deleted Successfuly';
-        console.log(response);
-        setTimeout(() => {
-          if (this.apiSuccess) {
-            this.apiSuccess = ''
-          }
-        }, 3000);
+        this._ToastrService.success('This Recipe Deleted Successfuly');
       },
       error: (err) => {
-        console.log(err);
-        this.apiError = 'This Recipe Can`t Delet , Try Again ';
-        setTimeout(() => {
-          if (this.apiError) {
-            this.apiError = ''
-          }
-        }, 3000);
-
+        this._ToastrService.error('This Recipe Can`t Delet , Try Again');
       }
     })
   }
-
-
 
 }

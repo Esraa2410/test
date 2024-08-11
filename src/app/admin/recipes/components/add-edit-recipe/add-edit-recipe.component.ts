@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RecipeService } from '../../services/recipe.service';
 import { CategoryService } from 'src/app/admin/categories/services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-edit-recipe',
@@ -27,6 +28,7 @@ export class AddEditRecipeComponent implements OnInit {
   selectedCateIds: any[] = [];
 
   constructor(
+    private _ToastrService: ToastrService,
     private _Router: Router,
     private _RecipeService: RecipeService,
     private _CategoryService: CategoryService,
@@ -72,51 +74,25 @@ export class AddEditRecipeComponent implements OnInit {
       //edit
       this._RecipeService.getEditRecipe(myData, this.activateId).subscribe({
         next: (re) => {
-          console.log(re);
           this.isLoading = false;
-          this.apiError = '';
-          this.apiSuccess = 'Editing Successfuly ';
-          setTimeout(() => {
-            if (this.apiSuccess) {
-              this.apiSuccess = ''
-            }
-          }, 1000);
+          this._ToastrService.success('Editing Successfuly ');
         }, error: (er) => {
-          console.log(er);
           this.isLoading = false;
-          this.apiError = 'Error in Editing';
-          setTimeout(() => {
-            if (this.apiError) {
-              this.apiError = ''
-            }
-          }, 2000);
+          this._ToastrService.error('Error in Editing');
         }, complete: () => {
           this.getRecipeDate();
-
         }
       })
     } else {
       //add
       this._RecipeService.onAddRecipe(myData).subscribe({
         next: (response) => {
-          this.apiError = '';
-          this.apiSuccess = response.message
+          this._ToastrService.success(response.message);
           this.isLoading = false;
-          setTimeout(() => {
-            if (this.apiSuccess) {
-              this.apiSuccess = ''
-            }
-          }, 1000);
         },
         error: (err) => {
-          console.log(err);
           this.isLoading = false;
-          this.apiError = err.error.message;
-          setTimeout(() => {
-            if (this.apiError) {
-              this.apiError = ''
-            }
-          }, 2000);
+          this._ToastrService.error(err.error.message);
         }, complete: () => {
           this.getRecipeDate();
         }
@@ -160,19 +136,14 @@ export class AddEditRecipeComponent implements OnInit {
   getRecipeById(id: number) {
     this._RecipeService.getRecipeById(id).subscribe({
       next: (res) => {
-        console.log(res)
         this.recipeDataId = res;
-        setTimeout(() => {
-          if (this.apiSuccess) { this.apiSuccess = ''}}, 1000);
       },
       error: (err) => {
-        console.log(err);
-        this.apiError = err.error.message;
-        setTimeout(() => {
-          if (this.apiError) {this.apiError = '' }}, 2000);
+        this._ToastrService.error(err.error.message);
       }, complete: () => {
         for (let i = 0; i < this.recipeDataId.category.length; i++) {
-          this.selectedCateIds.push(this.recipeDataId.category[i].id)}
+          this.selectedCateIds.push(this.recipeDataId.category[i].id)
+        }
         this.addRecipeForm.patchValue({
           name: this.recipeDataId.name,
           description: this.recipeDataId.description,
@@ -187,14 +158,11 @@ export class AddEditRecipeComponent implements OnInit {
   }
 
   onSelect(event: any) {
-    console.log(event);
-    //spread operator
     this.files.push(...event.addedFiles);
     this.imgSrc = this.files[0];
   }
 
   onRemove(event: any) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
 }

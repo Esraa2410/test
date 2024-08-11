@@ -4,6 +4,8 @@ import { AddEditCategoryComponent } from './components/add-edit-category/add-edi
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteComponent } from 'src/app/shared/delete/delete.component';
 import { PageEvent } from '@angular/material/paginator';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-categories',
@@ -17,28 +19,24 @@ export class CategoriesComponent {
   categoryItem: string = '';
   editData: any;
   ifAdd: boolean = true;
-  apiSuccess:any;
-  apiError:any;
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   disabled = false;
 
-  constructor(private _CategoryService: CategoryService, public dialog: MatDialog) {
+  constructor(private _ToastrService: ToastrService, private _CategoryService: CategoryService, public dialog: MatDialog) {
     this.getCategoriesDate();
   }
 
   handlePageEvent(e: PageEvent) {
     this.pageSize = e.pageSize;
     this.pageNumber = e.pageIndex;
-
     this.getCategoriesDate();
   }
 
   getCategoriesDate() {
     return this._CategoryService.getAllCategories(this.pageSize, this.pageNumber).subscribe({
       next: (res) => {
-        console.log(res);
         this.listData = res;
       }
     })
@@ -57,9 +55,6 @@ export class CategoriesComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-
       if (result) {
         this.addCategory(result);
       }
@@ -79,8 +74,6 @@ export class CategoriesComponent {
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
       this.ifAdd = false;
       if (result) {
         this.editCategory(id, result);
@@ -92,10 +85,9 @@ export class CategoriesComponent {
   //openDialogDelete
   openDialogDelete(id: number): void {
     const dialogRef = this.dialog.open(DeleteComponent, {
-      data: {id: id},
+      data: { id: id },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.deleteCategory(id);
       this.getCategoriesDate();
     });
@@ -105,20 +97,10 @@ export class CategoriesComponent {
   addCategory(categoryName: string) {
     this._CategoryService.onAddCategory(categoryName).subscribe({
       next: (res) => {
-        this.apiSuccess = 'Adding Successfuly';
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 3000);
+        this._ToastrService.success('Adding Successfuly');
       },
       error: (err) => {
-        this.apiError = 'Error in Adding ';
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 3000);
+        this._ToastrService.error('Error in Adding ');
       },
       complete: () => {
         this.getCategoriesDate();
@@ -132,20 +114,10 @@ export class CategoriesComponent {
     this._CategoryService.onEditCategory(id, categoryName).subscribe({
       next: (res) => {
         this.editData = res;
-        this.apiSuccess = 'Editing Successfuly';
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 3000);
+        this._ToastrService.success('Editing Successfuly');
       },
       error: () => {
-        this.apiError = 'Error in Editing';
-         setTimeout(() => {
-           if(this.apiError){
-             this.apiError=''
-           }
-         }, 3000);
+        this._ToastrService.error('Error in Editing');
       },
       complete: () => {
         this.getCategoriesDate();
@@ -158,22 +130,10 @@ export class CategoriesComponent {
   deleteCategory(id: number) {
     this._CategoryService.onDeleteCategory(id).subscribe({
       next: (res) => {
-       // console.log(res);
-        this.apiSuccess = 'Deleted Successfuly';
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 3000);
+        this._ToastrService.success('Deleted Successfuly');
       },
       error: (err) => {
-       // console.log(err);
-        this.apiError = 'Can`t Delete';
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 3000);
+        this._ToastrService.error('Can`t Delete');
       }
     })
   }

@@ -1,30 +1,18 @@
 <section>
     <div class="page-title p-1">
-        <div class="d-flex justify-content-between align-items-center" >
-                <div class="ms-3">
-                    <h1>Categories <span>item</span></h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, ipsam!</p>
-                </div>
-                <div class="me-3">
-                    <img class="w-100" src="../../../assets/images/Group 48102127.svg" alt="">
-                </div>
-          </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="ms-3">
+                <h1>Categories <span>item</span></h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, ipsam!</p>
+            </div>
+            <div class="me-3">
+                <img class="w-100" src="../../../assets/images/Group 48102127.svg" alt="">
+            </div>
+        </div>
     </div>
 
 
     <div>
-        <!-- tostar -->
-        <div class="w-25 alert-container" >
-            <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto mt-4">
-                <i class="fa-solid fa-circle-check mx-2 "></i>
-              <p class="p-0 m-0">{{apiSuccess}}</p>  
-            </div>
-            <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto mt-4">
-                <i class="fa-solid fa-circle-xmark mx-2"></i>
-                 <p class="m-0 p-0"> {{apiError}}  </p>
-            </div>
-        </div>
-
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2 class="h4">Categories Table Detalies</h2>
             <button class=" primary" (click)="openDialog()">Add New Category</button>
@@ -69,14 +57,9 @@
 
         </table>
 
-        <mat-paginator #paginator
-               class="demo-paginator"
-               (page)="handlePageEvent($event)"
-               [length]="listData.totalNumberOfRecords"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="[5, 10, 25 ,100]"
-               [pageIndex]="pageNumber"
-               aria-label="Select page">
-</mat-paginator>
+        <mat-paginator #paginator class="demo-paginator" (page)="handlePageEvent($event)"
+            [length]="listData.totalNumberOfRecords" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25 ,100]"
+            [pageIndex]="pageNumber" aria-label="Select page">
+        </mat-paginator>
     </div>
 </section>

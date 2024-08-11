@@ -2,7 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-verfiy-password',
   templateUrl: './verfiy-password.component.html',
@@ -16,7 +17,7 @@ export class VerfiyPasswordComponent implements OnInit {
   isVerfiy: boolean = false;
   currentEmail: string = '';
 
-  constructor(private _AuthService: AuthService, private _Router: Router) { }
+  constructor(private toastr: ToastrService, private _AuthService: AuthService, private _Router: Router) { }
   ngOnInit(): void {  }
 
   //resetPassForm
@@ -32,32 +33,20 @@ export class VerfiyPasswordComponent implements OnInit {
     this.isLoading = true;
     this._AuthService.resetPassword(resetPassForm.value).subscribe({
       next: (response) => {
-        this.apiError = '';
-        this.apiSuccess=response.message;
+        this.toastr.success(response.message);
         this.isLoading = false;
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 1000); 
       },
-      error: (err) => {
+      error: (err:HttpErrorResponse) => {
         this.isLoading = false;
-        this.apiError = err.error.message;
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 2000);
+        this.toastr.error(err.error.message);
       },complete:()=>{
-        setTimeout(() => {
-          this._Router.navigate(['auth']);
-        }, 1000);
-
+          this._Router.navigate(['/auth']);
       }
-
     })
+  }
 
+  onNoClick(): void {
+    this._Router.navigate(['/auth']);
   }
 
 

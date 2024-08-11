@@ -1,23 +1,13 @@
 <div class="auth-card m-3">
     <div class="text-end mt-2  ">
-        <i style="font-size: 20px;color: rgb(170, 11, 11);" class="fa-solid  fa-circle-xmark " (click)="onNoClick()"></i>
+        <i class="close-icon fa-solid  fa-circle-xmark " (click)="onNoClick()"></i>
     </div>
     <div class="w-50 text-center  mx-auto mb-2">
         <img src="../../assets/images/4 4.svg" class="w-100" alt="">
     </div>
     <h1 style="font-size: 20px;" class="mb-0 pb-0 h6">Verfiying Your Account</h1>
     <p class="mt-1 pt-0">Please Enter Your Otp or Check Your Inbox</p>
-      <!-- tostar -->
-      <div class="w-25 alert-container">
-        <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
-            <i class="fa-solid fa-circle-check mx-2 text-light"></i>
-            <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
-        </div>
-        <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
-            <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
-            <p class="m-0 p-0 text-light"> {{apiError}} </p>
-        </div>
-    </div>
+  
     <form class="w-100" (ngSubmit)="onVerfiy(verfiyForm)" [formGroup]="verfiyForm">
         <div class="row ">
             <div class="col-md-12">

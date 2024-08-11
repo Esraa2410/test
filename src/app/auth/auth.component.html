@@ -8,17 +8,6 @@
                     </div>
                     <h1 class="mb-0 pb-0">Log In</h1>
                     <p class="mt-1 pt-0">Welcome Back! Please enter your details</p>
-                    <!-- tostar -->
-                    <div class="w-25 alert-container">
-                        <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
-                            <i class="fa-solid fa-circle-check mx-2 text-light"></i>
-                            <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
-                        </div>
-                        <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
-                            <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
-                            <p class="m-0 p-0 text-light"> {{apiError}} </p>
-                        </div>
-                    </div>
                     <!-- login form -->
                     <form (ngSubmit)="onLogin(loginForm)" [formGroup]="loginForm">
                         <!-- email input -->

@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component,Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserDataService } from './services/user-data.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 interface User {
@@ -25,7 +25,7 @@ interface User {
   templateUrl: './user-data.component.html',
   styleUrls: ['./user-data.component.scss']
 })
-export class UserDataComponent implements OnInit{
+export class UserDataComponent{
   userData: User = {
     id: 0,
     userName: '',
@@ -41,20 +41,16 @@ export class UserDataComponent implements OnInit{
   imgUrl: any = 'https://upskilling-egypt.com:3006/';
   imgSrc: any;
   files: File[] = [];
-  apiSuccess: string = '';
-  apiError: string = '';
   isLoading: boolean = false;
   hide: boolean = true;
 
-  constructor(private _AuthService:AuthService, private _Router: Router, private _UserDataService: UserDataService, public dialog: MatDialog,
+  constructor(private _ToastrService:ToastrService, private _AuthService:AuthService, private _Router: Router, private _UserDataService: UserDataService, public dialog: MatDialog,
     public dialogRef: MatDialogRef<UserDataComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     if (localStorage.getItem('userToken')) {
       this.currentUser();
     }
   }
- 
-  ngOnInit() { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -64,12 +60,8 @@ export class UserDataComponent implements OnInit{
   currentUser() {
     this._UserDataService.getCurrentUser().subscribe({
       next: (res) => {
-        //console.log(res);
         this.userData = res;
-      },
-      error: (err) => {
-        console.log(err);
-      },
+      }
     })
   }
 
@@ -97,51 +89,25 @@ export class UserDataComponent implements OnInit{
 
     this._UserDataService.updateCurrentUser(myData).subscribe({
       next: (response) => {
-        console.log(response);
         localStorage.setItem('userName', response.userName);
-
-        this.apiSuccess = 'Profile Data Updated Successfuly';
+        this._ToastrService.success('Profile Data Updated Successfuly');
         this.isLoading = false;
-        setTimeout(() => {
-          if (this.apiSuccess) {
-            this.apiSuccess = ''
-          }
-        }, 3000);
       },
       error: (err) => {
-        console.log(err);
-        this.apiError = err.error.message;
-        this.isLoading = false;
-        setTimeout(() => {
-          if (this.apiError) {
-            this.apiError = ''
-          }
-        }, 3000);
+        this._ToastrService.error(err.error.message);
       },complete:()=>{
-        // this.onNoClick();
-        // this._Router.navigate(['../../auth']);
-        
-        
+         this.onNoClick();
       }
     })
 
   }
 
   onSelect(event: any) {
-    console.log(event);
-    //spread operator
     this.files.push(...event.addedFiles);
-    console.log(this.files);
-    //console.log(this.files[0].name);
-    // userData.imagePath?imgUrl+userData.imagePath:emptyImg"
       this.imgSrc = this.files[0];
-    
-
-    
   }
 
   onRemove(event: any) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
 

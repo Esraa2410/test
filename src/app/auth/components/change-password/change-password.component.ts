@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-change-password',
@@ -20,7 +21,7 @@ export class ChangePasswordComponent implements OnInit {
   hide: boolean = true;
   isVerfiy: boolean = false;
   currentEmail: string = '';
-  constructor(private _AuthService: AuthService, private _Router: Router,
+  constructor(private toastr: ToastrService, private _AuthService: AuthService, private _Router: Router,
     public dialogRef: MatDialogRef<ChangePasswordComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
   ngOnInit(): void { }
@@ -43,28 +44,13 @@ export class ChangePasswordComponent implements OnInit {
         this.isLoading = false;
         //localStorage.setItem('userToken', response.token);
         //this._AuthService.getProfile();
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 1000);
-
       },
-      error: (err) => {
-        // console.log('error');
+      error: (err:HttpErrorResponse) => {
         this.isLoading = false;
-        this.apiError = err.error.message;
-        console.log(err.error.message);
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 2000);
+        this.toastr.error(err.error.message);
+     
       }, complete: () => {
-        setTimeout(() => {
            this.onNoClick();
-        }, 1000);
-      
       }
 
     })

@@ -8,16 +8,6 @@
             <span *ngIf="!activateId">Add New</span>
             Recipe
         </h1>
-        <div class="w-25 alert-container">
-            <div *ngIf="apiSuccess" class="alert alert-design alert-success  w-100 ms-auto ">
-                <i class="fa-solid fa-circle-check mx-2 text-light"></i>
-                <p class="p-0 m-0 text-light">{{apiSuccess}}</p>
-            </div>
-            <div *ngIf="apiError" class="alert alert-design alert-danger w-100 ms-auto ">
-                <i class="fa-solid fa-circle-xmark mx-2 text-light"></i>
-                <p class="m-0 p-0 text-light"> {{apiError}} </p>
-            </div>
-        </div>
         <form (ngSubmit)="onAddEditRecipe(addRecipeForm)" [formGroup]="addRecipeForm " class="">
             <div class="row">
                 <!-- name input -->

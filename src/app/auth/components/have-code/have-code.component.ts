@@ -4,7 +4,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-have-code',
@@ -19,11 +20,13 @@ export class HaveCodeComponent {
   hide: boolean = true;
   isVerfiy: boolean = false;
   currentEmail: string = '';
-  apiSuccess:any;
-  constructor(private _AuthService: AuthService, private _Router: Router,
+  apiSuccess: any;
+  constructor(private toastr: ToastrService, private _AuthService: AuthService, private _Router: Router,
     public dialogRef: MatDialogRef<HaveCodeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-  ngOnInit(): void { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(data.email)
+  }
+
 
   verfiyForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
@@ -34,29 +37,15 @@ export class HaveCodeComponent {
     this.isLoading = true;
     this._AuthService.verfiy(verfiyForm.value).subscribe({
       next: (response) => {
-        this.apiSuccess=response.message;
-        console.log(response);
+        this.toastr.success(response.message);
         this.isLoading = false;
-        setTimeout(() => {
-          if(this.apiSuccess){
-            this.apiSuccess=''
-          }
-        }, 1000); 
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         this.isLoading = false;
-        this.apiError = err.error.message;
-        setTimeout(() => {
-          if(this.apiError){
-            this.apiError=''
-          }
-        }, 2000);
+        this.toastr.error(err.error.message);
       }, complete: () => {
-        setTimeout(() => {
-          this.onNoClick();
-          this._Router.navigate(['../']);
-        }, 1000);
-        
+        this.onNoClick();
+        this._Router.navigate(['../']);
       }
 
     })
