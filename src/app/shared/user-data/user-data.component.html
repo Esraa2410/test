@@ -5,16 +5,16 @@
             <div class="col-md-12 auth p-2  ">
                 <img src="../../../assets/images/header-bg-svg.svg" class="w-100 " alt="">
                 <div class="img-container ">
-                    <!-- <img class="w-100 h-100 img-style" [src]="userData.imagePath?imgUrl+userData.imagePath:emptyImg"
-                        alt=""> -->
-                    <ngx-dropzone (change)="onSelect($event) " [multiple]="false">
+                    <img class="w-100 h-100 img-style" [src]="userData.imagePath?imgUrl+userData.imagePath:emptyImg"
+                        alt="">
+                    <!-- <ngx-dropzone (change)="onSelect($event) " [multiple]="false">
                         <ngx-dropzone-label>
                             <i class="fa-solid fa-upload"></i>
                         </ngx-dropzone-label>
                         <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
                             [file]="f">
                         </ngx-dropzone-image-preview>
-                    </ngx-dropzone>
+                    </ngx-dropzone> -->
                 </div>
             </div>
             <div class="col-md-12 text-center mt-5  ">

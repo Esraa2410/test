@@ -24,7 +24,6 @@ export class HaveCodeComponent {
   constructor(private toastr: ToastrService, private _AuthService: AuthService, private _Router: Router,
     public dialogRef: MatDialogRef<HaveCodeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data.email)
   }
 
 

@@ -1,4 +1,4 @@
-import { Component,Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserDataService } from './services/user-data.service';
@@ -25,7 +25,7 @@ interface User {
   templateUrl: './user-data.component.html',
   styleUrls: ['./user-data.component.scss']
 })
-export class UserDataComponent{
+export class UserDataComponent {
   userData: User = {
     id: 0,
     userName: '',
@@ -44,7 +44,7 @@ export class UserDataComponent{
   isLoading: boolean = false;
   hide: boolean = true;
 
-  constructor(private _ToastrService:ToastrService, private _AuthService:AuthService, private _Router: Router, private _UserDataService: UserDataService, public dialog: MatDialog,
+  constructor(private _ToastrService: ToastrService, private _AuthService: AuthService, private _Router: Router, private _UserDataService: UserDataService, public dialog: MatDialog,
     public dialogRef: MatDialogRef<UserDataComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     if (localStorage.getItem('userToken')) {
@@ -95,8 +95,8 @@ export class UserDataComponent{
       },
       error: (err) => {
         this._ToastrService.error(err.error.message);
-      },complete:()=>{
-         this.onNoClick();
+      }, complete: () => {
+        this.onNoClick();
       }
     })
 
@@ -104,7 +104,7 @@ export class UserDataComponent{
 
   onSelect(event: any) {
     this.files.push(...event.addedFiles);
-      this.imgSrc = this.files[0];
+    this.imgSrc = this.files[0];
   }
 
   onRemove(event: any) {
