@@ -30,6 +30,7 @@ $foodApp-theme: mat.define-light-theme((color: (primary: $foodApp-primary,
 @include mat.all-component-themes($foodApp-theme);
 
 /* You can add global styles to this file, and also import other style files */
+
 .text-main {
     color: #4AA35A;
 }
